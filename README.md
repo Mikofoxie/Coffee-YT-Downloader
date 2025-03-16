@@ -11,7 +11,9 @@ Graphical interface for the command line tool [yt-dlp](https://github.com/yt-dlp
 1. Download [releases](https://github.com/Mikofoxie/Coffee-YT-Downloader/releases) and extract the folder.  
 2. Run `run.bat`.  
 3. The script will check and install `ffmpeg` & `yt-dlp` if missing.  
-4. `CoffeeYTDownloaderSetup.exe` will launch automatically.  
+4. `CoffeeYTDownloaderSetup.exe` will launch automatically.
+5. After installation, please close the application and reopen it.
+6. Enjoy
 
 ### 🔹 Manual Setup  
 If you prefer to install dependencies yourself:
@@ -26,5 +28,6 @@ pip install PySide6 yt_dlp
 cd Coffee-YT-Downloader
 python main.py
 ```
+3. Enjoy
 
 
