@@ -1,0 +1,235 @@
+/* Main Application */
+QMainWindow, QWidget {
+    background-color: #F5F0E1; 
+    color: #5D4037; 
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+
+/* Labels */
+QLabel {
+    color: #5D4037; 
+    font-size: 13pt;
+    padding: 2px;
+}
+
+
+/* Input Fields */
+QLineEdit {
+    background-color: #FFF8E1; 
+    border: 1px solid #D7CCC8; 
+    border-radius: 4px;
+    padding: 8px;
+    color:rgb(97, 97, 97); 
+    selection-background-color: #BCAAA4; 
+}
+
+QLineEdit:focus {
+    border: 2px solid #A1887F; 
+}
+
+
+QComboBox {
+    background-color: #EFEBE9;
+    border: 1px solid #D7CCC8;
+    border-radius: 20px;
+    padding: 6px;
+    color: #3E2723;
+    min-width: 4em;
+}
+
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 0px;
+    border-left-width: 0px;
+    border-left-color: #D7CCC8;
+    border-left-style: solid;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #EFEBE9;
+}
+
+
+QComboBox QAbstractItemView {
+    background-color: #EFEBE9;
+    color: #3E2723;
+    border: 1px solid #D7CCC8;
+    border-radius: 10px;
+    selection-background-color: #D7CCC8;
+    selection-color: #3E2723;
+}
+
+
+/* Buttons */
+QPushButton {
+    background-color: #8D6E63; 
+    color: #FFFFFF; 
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #A1887F; 
+}
+
+QPushButton:pressed {
+    background-color: #6D4C41; 
+}
+
+QPushButton:disabled {
+    background-color: #D7CCC8; 
+    color: #BCAAA4;
+}
+
+
+/* Special Button (Download) */
+QPushButton#download_btn {
+    background-color: #795548; 
+    font-size: 12pt;
+    padding: 10px;
+}
+
+QPushButton#download_btn:hover {
+    background-color: #8D6E63; 
+}
+
+#cancel_btn {
+    background-color: #8B4513; 
+    color: #FFF8DC; 
+    font-size: 12pt;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#cancel_btn:disabled {
+    background-color: #D2B48C; 
+    color: #F5DEB3; 
+}
+
+#cancel_btn:hover:!disabled {
+    background-color: #A0522D; 
+    border: 1px solid #FFDEAD; 
+}
+
+#cancel_btn:pressed {
+    background-color: #654321;
+    color: #FFFACD; 
+}
+
+
+/* Progress Bar */
+QProgressBar {
+    background-color: #F5F5F5;
+    border: 1px solid #A1887F;
+    border-radius: 8px;
+    text-align: center;
+    color:rgb(250, 196, 170);
+    font-weight: bold;
+    height: 22px;
+    margin: 3px;
+}
+
+QProgressBar::chunk {
+    background-color: #8D6E63;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                          stop:0 #A1887F, stop:1 #6D4C41);
+    border-radius: 6px;
+}
+
+
+/* Checkboxes */
+QCheckBox {
+    spacing: 8px;
+    color: #5D4037;
+}
+
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+}
+
+QCheckBox::indicator:unchecked {
+    border: 1px solid #BCAAA4;
+    background-color: #FFF8E1;
+    border-radius: 3px;
+}
+
+QCheckBox::indicator:checked {
+    border: 1px solid #8D6E63;
+    background-color: #8D6E63;
+    border-radius: 3px;
+}
+
+
+/* Hover effects for widgets */
+QWidget {
+    border-radius: 10px; 
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+/* Status label styling */
+QLabel#status_label {
+    font-style: italic;
+    padding: 5px;
+    border-top: 1px solid #D7CCC8;
+    margin-top: 5px;
+}
+
+
+/* Group box styling */
+QGroupBox {
+    border: 1px solid #D7CCC8;
+    border-radius: 6px;
+    margin-top: 12px;
+    padding-top: 10px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0 5px;
+    color: #5D4037;
+    font-weight: bold;
+}
+
+
+/* Scrollbar */
+QScrollBar:vertical {
+    width: 0px; 
+    background: transparent;
+}
+
+QScrollArea:hover QScrollBar:vertical {
+    width: 8px;
+    background: rgba(141, 110, 99, 0.3);
+}
+
+QScrollBar::handle:vertical {
+    background: #8D6E63;
+    border-radius: 4px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+
+/* Log Table */
+QPlainTextEdit {
+    background-color: #FFF5E6;
+    border: 1px solid #D4A5A5;
+    border-radius: 5px;
+    padding: 5px;
+    color: #5C4033;
+    font-family: "Courier New";
+    font-size: 14px;
+}
