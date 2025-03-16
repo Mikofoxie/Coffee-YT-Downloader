@@ -19,7 +19,6 @@ If you prefer to install dependencies yourself:
    - [yt-dlp](https://github.com/yt-dlp/yt-dlp#installation)  
 2. Add both to the system `PATH`.
 
-3. 
 ```bash
 git clone https://github.com/Mikofoxie/Coffee-YT-Downloader.git
 pip install PySide6 yt_dlp
