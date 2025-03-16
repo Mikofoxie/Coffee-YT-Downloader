@@ -1,6 +1,7 @@
-# CoffeeYTDownloader  
+# Coffee YT Downloader  
 
 A simple YouTube downloader that automatically checks and installs dependencies before running.
+Graphical interface for the command line tool [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 ![image](https://github.com/user-attachments/assets/41bdef65-2980-4806-9344-00388909cfe3)
 
