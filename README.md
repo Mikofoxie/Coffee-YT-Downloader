@@ -1,6 +1,8 @@
 # CoffeeYTDownloader  
 
-A simple YouTube downloader that automatically checks and installs dependencies before running.  
+A simple YouTube downloader that automatically checks and installs dependencies before running.
+
+![image](https://github.com/user-attachments/assets/41bdef65-2980-4806-9344-00388909cfe3)
 
 ## How to Use  
 
