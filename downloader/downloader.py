@@ -1,7 +1,10 @@
-import yt_dlp, glob, os
+import yt_dlp
+import glob
+import os
 
-def download_video(url, format_choice, custom_name, download_folder, temp_folder, progress_callback, use_sponsorblock, skip_no_music, cancel_check=None):
-    initial_files = set(os.listdir(temp_folder))
+
+def download_video(url, format_choice, custom_name, download_folder, temp_folder, progress_callback, use_sponsorblock, skip_no_music, cancel_check=None, log_callback=None):
+    initial_files = set(os.listdir(temp_folder)) if os.path.exists(temp_folder) else set()
     temp_files = set()
 
     def progress_hook(d):
@@ -30,11 +33,8 @@ def download_video(url, format_choice, custom_name, download_folder, temp_folder
                 if progress_callback:
                     progress_callback(percent)
             except Exception as e:
-                print(f"Error calculating progress: {str(e)}")
-
-    def format_info_callback(d):
-        if d['status'] == 'finished':
-            print(f"Download format: {d.get('format_id')}")
+                if log_callback:
+                    log_callback(f"Error calculating progress: {str(e)}")
 
     format_map = {
         'mp4': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]',
@@ -42,15 +42,17 @@ def download_video(url, format_choice, custom_name, download_folder, temp_folder
         'webm': 'bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]',
         'best': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best'
     }
-    
+
     ydl_opts = {
         'format': format_map.get(format_choice),
         'outtmpl': os.path.join(temp_folder, f"{custom_name or '%(title)s'}.%(ext)s"),
         'noplaylist': False,
-        'progress_hooks': [progress_hook, format_info_callback],
+        'progress_hooks': [progress_hook],
         'postprocessors': [],
-        'verbose': True,
+        'verbose': False,
         'continuedl': True,
+        'quiet': True,
+        'no_warnings': True,
     }
 
     if format_choice == 'webm':
@@ -64,20 +66,20 @@ def download_video(url, format_choice, custom_name, download_folder, temp_folder
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         })
-        
+
     if use_sponsorblock or skip_no_music:
         sponsor_categories = []
         if use_sponsorblock:
             sponsor_categories.extend(['sponsor', 'intro', 'outro', 'selfpromo', 'interaction'])
         if skip_no_music:
             sponsor_categories.append('filler')
-        
+
         ydl_opts['postprocessors'].append({
             'key': 'SponsorBlock',
             'categories': sponsor_categories,
             'when': 'after_filter'
         })
-        
+
         ydl_opts['postprocessors'].append({
             'key': 'ModifyChapters',
             'remove_sponsor_segments': sponsor_categories,
@@ -85,13 +87,31 @@ def download_video(url, format_choice, custom_name, download_folder, temp_folder
             'sponsorblock_chapter_title': '[SponsorBlock]: %(category_names)s',
             'when': 'post_process'
         })
-        
+
         ydl_opts['postprocessors'].append({
             'key': 'FFmpegMetadata',
             'add_chapters': True,
             'add_metadata': False,
             'when': 'post_process'
         })
+
+    class CustomLogger:
+        def __init__(self, log_callback):
+            self.log_callback = log_callback
+
+        def debug(self, msg):
+            if "[download]" not in msg and self.log_callback:
+                self.log_callback(msg)
+
+        def warning(self, msg):
+            if self.log_callback:
+                self.log_callback(f"Warning: {msg}")
+
+        def error(self, msg):
+            if self.log_callback:
+                self.log_callback(f"Error: {msg}")
+
+    ydl_opts['logger'] = CustomLogger(log_callback)
 
     try:
         if cancel_check and cancel_check():
@@ -113,7 +133,7 @@ def download_video(url, format_choice, custom_name, download_folder, temp_folder
 
     except Exception as e:
         if str(e) == "Download cancelled by user":
-            current_files = set(os.listdir(temp_folder))
+            current_files = set(os.listdir(temp_folder)) if os.path.exists(temp_folder) else set()
             new_files = current_files - initial_files
             for new_file in new_files:
                 full_path = os.path.join(temp_folder, new_file)
@@ -121,9 +141,12 @@ def download_video(url, format_choice, custom_name, download_folder, temp_folder
             temp_files.update(glob.glob(os.path.join(temp_folder, "*.part")))
             temp_files.update(glob.glob(os.path.join(temp_folder, "*.part-Frag*")))
             temp_files.update(glob.glob(os.path.join(temp_folder, "*.ytdl")))
-            print(f"Cancellation temporary file: {temp_files}")
+            if log_callback:
+                log_callback(f"Cancellation temporary files: {temp_files}")
             raise Exception("Download cancelled by user") from e
         else:
-            print(f"Error downloading video: {str(e)}")
+            if log_callback:
+                log_callback(f"Error downloading video: {str(e)}")
             raise
+
     return []
