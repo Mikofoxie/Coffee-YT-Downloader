@@ -14,7 +14,7 @@ class DownloadThread(QThread):
     progress = Signal(int)
     cancelled = Signal(list)
     log = Signal(str)
-
+    
     def __init__(self, url, format_choice, custom_name, download_folder, temp_folder, use_sponsorblock, skip_no_music, cancel_check=None):
         super().__init__()
         self.url = url
@@ -27,6 +27,7 @@ class DownloadThread(QThread):
         self._is_cancelled = False
         self.cancel_check = cancel_check
         self.initial_files = set(os.listdir(temp_folder)) if os.path.exists(temp_folder) else set()
+        self.max_percent = 0
 
     def cancel(self):
         self._is_cancelled = True
@@ -39,7 +40,12 @@ class DownloadThread(QThread):
             self.log.emit(f"Starting download for URL: {self.url}\nIf it's a playlist or YouTube channel, please wait...\nCancellation will take time. Consider closing the program")
 
             def progress_callback(percent):
-                self.progress.emit(percent)
+                if percent < self.max_percent - 50 and percent >= 0:
+                    self.max_percent = percent
+                if percent >= 0 and percent <= 100:
+                    if percent > self.max_percent:
+                        self.max_percent = percent
+                        self.progress.emit(self.max_percent)
 
             def log_callback(message):
                 self.log.emit(message)
