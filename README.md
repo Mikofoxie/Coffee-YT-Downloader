@@ -9,7 +9,7 @@ Graphical interface for the command line tool [yt-dlp](https://github.com/yt-dlp
 
 ### 🔹 Automatic Setup  
 1. Download [releases](https://github.com/Mikofoxie/Coffee-YT-Downloader/releases) and extract the folder.  
-2. Run `run.bat`.  
+2. Run `run.bat` with Administartor.
 3. The script will check and install `ffmpeg` & `yt-dlp` if missing.  
 4. `CoffeeYTDownloaderSetup.exe` will launch automatically.
 5. After installation, please close the application and reopen it.
